@@ -202,5 +202,5 @@ router.post('/pants',(req,res)=>{
 
 const port = process.env.PORT || 3000;
 //app.listen(port,()=>console.log(`Listening on ${port}....`))
-app.use('/',router);
+app.use('/.netlify/functions/api',router);
 module.exports.handler=serverless(app)
