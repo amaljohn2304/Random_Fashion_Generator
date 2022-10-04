@@ -1,6 +1,8 @@
 const express =require('express');
 const app=express();
-const asyncRoute = require('route-async')
+const asyncRoute = require("route-async");
+const serverless=require('serverless-http')
+const router = express.Router();
 
 const mysql = require("mysql2/promise");
 
@@ -17,8 +19,8 @@ const insertDBShirt = async (color,colorRating,pattern,patternRating,fabric,fabr
 
     
     
-   var id= await(connection.query(`SELECT MAX(pieceID) from shirt_collection`));
-        finalId=id[0][0]["MAX(pieceID)"]+1
+    var id= await(connection.query(`SELECT MAX(pieceID) from shirt_collection`));
+        var finalId=id[0][0]["MAX(pieceID)"]+1
         console.log(finalId) 
     
     try{
@@ -164,7 +166,7 @@ const retrievePants = async () =>{
 ///paths and stuff
 app.use(express.json());
 
-app.get('/shirt/:pieceId',async (req,res)=>{
+router.get('/shirt/:pieceId',async (req,res)=>{
 
         const a= await retrieveShirt(req.params.pieceId)
         while(a==='a'){
@@ -177,22 +179,28 @@ app.get('/shirt/:pieceId',async (req,res)=>{
     res.send(ret);
 });
 
-app.get('/pants/:pieceId',async (req,res)=>{
+router.get('/', (request, response) => {
+    return response.send('Ping!');
+    });
+
+router.get('/pants/:pieceId',async (req,res)=>{
     const a= await retrievePants(req.params.pieceId)
     console.log(a[0][0]);
     res.send(a[0][0]);
 });
 
-app.post('/shirt',(req,res)=>{
+router.post('/shirt',(req,res)=>{
     insertDBShirt(req.body.color,req.body.colorRating,req.body.pattern,req.body.patternRating,req.body.fabric,req.body.fabricRating,req.body.sleeve,req.body.sleeveRating,req.body.collar,req.body.collarRating,req.body.fit,req.body.fitRating,req.body.pieceId);
     res.send(req.body);
 });
 
-app.post('/pants',(req,res)=>{
+router.post('/pants',(req,res)=>{
     insertDBPant(req.body.type,req.body.typeRating,req.body.color,req.body.colorRating,req.body.pattern,req.body.patternRating,req.body.fabric,req.body.fabricRating,req.body.fit,req.body.fitRating,req.body.pieceId);
     res.send(req.body);
 });
 
 
 const port = process.env.PORT || 3000;
-app.listen(port,()=>console.log(`Listening on ${port}....`))
+//app.listen(port,()=>console.log(`Listening on ${port}....`))
+app.use('/',router);
+module.exports.handler=serverless(app)
