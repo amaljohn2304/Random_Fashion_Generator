@@ -8,6 +8,7 @@ const mysql = require("mysql2/promise");
 
 ///insert shit
 const insertDBShirt = async (color,colorRating,pattern,patternRating,fabric,fabricRating,sleeve,sleeveRating,collar,collarRating,fit,fitRating,pieceId) =>{
+    console.log("hello"); 
     const connection = await mysql.createConnection({
         host: "sql12.freesqldatabase.com",
         user: "sql12537936",
@@ -18,7 +19,7 @@ const insertDBShirt = async (color,colorRating,pattern,patternRating,fabric,fabr
 
 
     
-    
+    console.log("hello"); 
     var id= await(connection.query(`SELECT MAX(pieceID) from shirt_collection`));
         var finalId=id[0][0]["MAX(pieceID)"]+1
         console.log(finalId) 
@@ -185,9 +186,6 @@ router.get('/shirt/:pieceId',async (req,res)=>{
     res.send(ret);
 });
 
-router.get('/', (request, response) => {
-    return response.send('Ping!');
-    });
 
 router.get('/pants/:pieceId',async (req,res)=>{
     const a= await retrievePants(req.params.pieceId)
