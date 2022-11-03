@@ -9,10 +9,10 @@ const mysql = require("mysql2/promise");
 ///insert shit
 const insertDBShirt = async (color,colorRating,pattern,patternRating,fabric,fabricRating,sleeve,sleeveRating,collar,collarRating,fit,fitRating,pieceId) =>{
     const connection = await mysql.createConnection({
-        host: "sql6.freesqldatabase.com",
-        user: "sql6523637",
-        password: "85iWlITEkp",
-        database: "sql6523637",
+        host: "sql12.freesqldatabase.com",
+        user: "sql12537936",
+        password: "kTVQwPmi8z",
+        database: "sql12537936",
         port: 3306,
     })
 
@@ -41,10 +41,10 @@ const insertDBShirt = async (color,colorRating,pattern,patternRating,fabric,fabr
 
 const insertDBPant = async (type,typeRating,color,colorRating,pattern,patternRating,fabric,fabricRating,fit,fitRating,pieceId) =>{
     const connection = await mysql.createConnection({
-        host: "sql6.freesqldatabase.com",
-        user: "sql6522053",
-        password: "BxugmqLGsm",
-        database: "sql6522053",
+        host: "sql12.freesqldatabase.com",
+        user: "sql12537936",
+        password: "kTVQwPmi8z",
+        database: "sql12537936",
         port: 3306,
     })
     try{
@@ -165,6 +165,12 @@ const retrievePants = async () =>{
 
 ///paths and stuff
 app.use(express.json());
+
+router.get('/',(req,res)=>{
+    res.json({
+        'hello':'hi'
+    });
+});
 
 router.get('/shirt/:pieceId',async (req,res)=>{
 
